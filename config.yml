@@ -1,0 +1,6 @@
+chain_auth_token: replace-with-a-strong-secret
+chain_rpc_user: replace-with-an-rpc-user
+chain_rpc_password: replace-with-a-strong-secret
+chain_port: 8333
+chain_ip_address: replace-with-ip-address
+chain_web_port: 4567

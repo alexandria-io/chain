@@ -1,0 +1,12 @@
+ruby '2.1.2'
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'sinatra-contrib'
+#gem 'bitcoin-client', git: 'git://github.com/cgcardona/bitcoin-client.git'
+gem 'bitcoin-client'
+gem 'httparty'
+gem 'rspec'
+gem 'json'
+gem 'thin'
+gem 'rack_csrf'

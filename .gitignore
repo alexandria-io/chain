@@ -1,0 +1,6 @@
+*.swp
+*.swo
+*.swm
+*.swn
+*.DS_STORE
+.sass-cache/*
