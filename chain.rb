@@ -23,7 +23,7 @@ class Chain < Sinatra::Base
     'hello world'
   end
   
-  UNUSED_COMMANDS = %w[addmultisigaddress backupwallet createrawtransaction decoderawtransaction dumpprivkey encryptwallet getblocktemplate getrawtransaction getreceivedbyaccount getreceivedbyaddress gettransaction getwork getworkex help importprivkey keypoolrefill listaccounts listreceivedbyaccount listreceivedbyaddress listsinceblock listtransactions listunspent makekeypair move sendfrom sendmany sendrawtransaction sendtoaddress setaccount setgenerate setmininput settxfee signmessage signrawtransaction stop validateaddress verifymessage]
+  UNUSED_COMMANDS = %w[addmultisigaddress backupwallet createrawtransaction decoderawtransaction dumpprivkey encryptwallet getblocktemplate getrawtransaction getreceivedbyaccount getreceivedbyaddress getwork getworkex help importprivkey keypoolrefill listaccounts listreceivedbyaccount listreceivedbyaddress listsinceblock listunspent makekeypair move sendmany sendrawtransaction sendtoaddress setaccount setgenerate setmininput settxfee signmessage signrawtransaction stop validateaddress verifymessage]
 
   before do
     unless %w[/].include? env['REQUEST_PATH']
@@ -219,6 +219,46 @@ class Chain < Sinatra::Base
     rescue Exception => ex
       json status: 'failure', message: ex
     end 
+  end
+
+  get "#{api_v1_chain_prefix}getreceivedbyaddress.json" do
+    begin
+      command = Command.new('getreceivedbyaddress', params, settings)
+      command.perform
+      json command.result
+    rescue Exception => ex
+      json status: 'failure', message: ex
+    end
+  end
+
+  get "#{api_v1_chain_prefix}gettransaction.json" do
+    begin
+      command = Command.new('gettransaction', params, settings)
+      command.perform
+      json command.result
+    rescue Exception => ex
+      json status: 'failure', message: ex
+    end
+  end
+
+  get "#{api_v1_chain_prefix}listtransactions.json" do
+    begin
+      command = Command.new('listtransactions', params, settings)
+      command.perform
+      json command.result
+    rescue Exception => ex
+      json status: 'failure', message: ex
+    end
+  end
+
+  get "#{api_v1_chain_prefix}sendfrom.json" do
+    begin
+      command = Command.new('sendfrom', params, settings)
+      command.perform
+      json command.result
+    rescue Exception => ex
+      json status: 'failure', message: ex
+    end
   end
   
   not_found do
