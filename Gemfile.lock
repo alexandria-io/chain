@@ -1,9 +1,15 @@
+GIT
+  remote: git://github.com/cgcardona/bitcoin-client.git
+  revision: bfafb0c4aa00e23bb7a34ed6f0df72cf03a662d7
+  branch: features/sendfrom
+  specs:
+    bitcoin-client (0.0.3)
+      rest-client
+
 GEM
   remote: https://rubygems.org/
   specs:
     backports (3.6.0)
-    bitcoin-client (0.0.3)
-      rest-client
     daemons (1.1.9)
     diff-lcs (1.2.5)
     eventmachine (1.0.3)
@@ -52,7 +58,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bitcoin-client
+  bitcoin-client!
   httparty
   json
   rack_csrf

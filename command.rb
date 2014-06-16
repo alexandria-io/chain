@@ -15,15 +15,15 @@ class Command
     @result = {}
 
     case command
+    when 'getaccount'
+      raise 'address parameter required' if request_params['address'].nil?
+      @address = request_params['address']
     when 'getaccountaddress'
       if request_params['account'].nil?
         @account = SecureRandom.hex(32)
       else
         @account = request_params['account']
       end
-    when 'getaccount'
-      raise 'address parameter required' if request_params['address'].nil?
-      @address = request_params['address']
     when 'getaddressesbyaccount'
       raise 'account parameter required' if request_params['account'].nil?
       @account = request_params['account']
@@ -46,6 +46,16 @@ class Command
       else
         @account = request_params['account']
       end
+    when 'getreceivedbyaddress'
+      @address = request_params['address']
+    when 'gettransaction'
+      @transaction = request_params['transaction']
+    when 'listtransactions'
+      @account = request_params['account']
+    when 'sendfrom'
+      @account = request_params['account']
+      @address = request_params['address']
+      @message = request_params['message']
     end
   end
 
@@ -61,7 +71,7 @@ class Command
     @client ||= Bitcoin::Client.local @settings
   end
 
-  %w[addmultisigaddress backupwallet createrawtransaction decoderawtransaction dumpprivkey encryptwallet getblocktemplate getrawtransaction getreceivedbyaccount getreceivedbyaddress gettransaction getwork getworkex help importprivkey keypoolrefill listaccounts listreceivedbyaccount listreceivedbyaddress listsinceblock listtransactions listunspent makekeypair move sendfrom sendmany sendrawtransaction sendtoaddress setaccount setgenerate setmininput settxfee signmessage signrawtransaction stop validateaddress verifymessage].each do |action|
+  %w[addmultisigaddress backupwallet createrawtransaction decoderawtransaction dumpprivkey encryptwallet getblocktemplate getrawtransaction getreceivedbyaccount getwork getworkex help importprivkey keypoolrefill listaccounts listreceivedbyaccount listreceivedbyaddress listsinceblock listunspent makekeypair move sendmany sendrawtransaction sendtoaddress setaccount setgenerate setmininput settxfee signmessage signrawtransaction stop validateaddress verifymessage].each do |action|
     define_method(action) do 
       @result[:status] = 'success'
       @result[:command] = @command
@@ -71,7 +81,7 @@ class Command
 
   def getaccount
     @result[:status] = 'success'
-    @result[:address] = client.getaccount @address
+    @result[:account] = client.getaccount @address
   end
 
   def getaccountaddress
@@ -154,5 +164,25 @@ class Command
   def getrawmempool
     @result[:status] = 'success'
     @result[:rawmempool] = client.getrawmempool
+  end
+
+  def getreceivedbyaddress
+    @result[:status] = 'success'
+    @result[:transactions] = client.getreceivedbyaddress @address
+  end
+
+  def gettransaction
+    @result[:status] = 'success'
+    @result[:transaction] = client.gettransaction @transaction
+  end
+
+  def listtransactions
+    @result[:status] = 'success'
+    @result[:transactions] = client.listtransactions @account
+  end
+  
+  def sendfrom
+    @result[:status] = 'success'
+    @result[:transaction] = client.sendfrom @account, @address, 1, 0, '', '', @message
   end
 end
